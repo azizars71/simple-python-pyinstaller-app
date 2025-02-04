@@ -4,21 +4,21 @@ pipeline {
         stage('Build') {
             agent {
                 docker {
-                    image 'python:2-alpine'
+                    image 'python:3-alpine'
                 }
             }
             steps {
-                sh 'python -m py_compile sources/add2vals.py sources/calc.py'
+                sh 'python3 -m py_compile sources/add2vals.py sources/calc.py'
             }
         }
         stage('Test') {
             agent {
                 docker {
-                    image 'qnib/pytest'
+                    image 'pytest/pytest'
                 }
             }
             steps {
-                sh 'py.test --verbose --junit-xml test-reports/results.xml sources/test_calc.py'
+                sh 'pytest --verbose --junit-xml test-reports/results.xml sources/test_calc.py'
             }
             post {
                 always {
@@ -29,10 +29,11 @@ pipeline {
         stage('Deploy') {
             agent {
                 docker {
-                    image 'cdrx/pyinstaller-linux:python2'
+                    image 'python:3-slim'
                 }
             }
             steps {
+                sh 'pip install pyinstaller'
                 sh 'pyinstaller --onefile sources/add2vals.py'
                 echo 'SLEEP'
                 sleep(time:60, unit: "SECONDS")
