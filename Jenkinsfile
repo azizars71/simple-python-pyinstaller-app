@@ -12,7 +12,6 @@ node {
 
     //bagian test stage
     stage('Test') {
-        sh 'pip install pytest'
         //eksekusi test stage
         docker.image('qnib/pytest').inside {
             try {
