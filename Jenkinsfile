@@ -1,14 +1,18 @@
 node {
+    def workspace = pwd()
+
     //bagian build stage
     stage('Build') {
         //eksekusi build stage
         docker.image('python:2-alpine').inside {
+            sh 'mkdir -p sources'
             sh 'python -m py_compile sources/add2vals.py sources/calc.py'
         }
     }
 
     //bagian test stage
     stage('Test') {
+        sh 'pip install pytest'
         //eksekusi test stage
         docker.image('qnib/pytest').inside {
             try {
