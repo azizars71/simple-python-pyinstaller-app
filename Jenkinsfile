@@ -5,20 +5,36 @@ pipeline {
             agent {
                 docker {
                     image 'python:2-alpine'
+                    args '--privileged'
                 }
             }
             steps {
-                sh 'python -m py_compile sources/add2vals.py sources/calc.py'
+                script {
+                    try {
+                        sh 'python -m py_compile sources/add2vals.py sources/calc.py'
+                    } catch (Exception e) {
+                        currentBuild.result = 'FAILURE'
+                        throw e
+                    }
+                }
             }
         }
         stage('Test') {
             agent {
                 docker {
                     image 'qnib/pytest'
+                    args '--privileged'
                 }
             }
             steps {
-                sh 'py.test --verbose --junit-xml test-reports/results.xml sources/test_calc.py'
+                script {
+                    try {
+                        sh 'pytest --verbose --junit-xml test-reports/results.xml sources/test_calc.py'
+                    } catch (Exception e) {
+                        currentBuild.result = 'FAILURE'
+                        throw e
+                    }
+                }
             }
             post {
                 always {
@@ -26,17 +42,25 @@ pipeline {
                 }
             }
         }
-        stage('Deliver') {
+        stage('Deploy') {
             agent {
                 docker {
                     image 'cdrx/pyinstaller-linux:python2'
+                    args '--privileged'
                 }
             }
             steps {
-                sh 'pyinstaller --onefile sources/add2vals.py'
-                echo 'SLEEP'
-                sleep(time:60, unit: "SECONDS")
-                input message: 'Finished using the website? (Click "Proceed" to continue)'
+                script {
+                    try {
+                        sh 'pyinstaller --onefile sources/add2vals.py'
+                        echo 'SLEEP'
+                        sleep(time:60, unit: "SECONDS")
+                        input message: 'Finished using the website? (Click "Proceed" to continue)'
+                    } catch (Exception e) {
+                        currentBuild.result = 'FAILURE'
+                        throw e
+                    }
+                }
             }
             post {
                 success {
