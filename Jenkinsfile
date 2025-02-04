@@ -29,6 +29,10 @@ pipeline {
             steps {
                 script {
                     try {
+                        sh 'docker --version'
+                        sh 'docker ps'
+                        sh 'docker inspect cdrx/pyinstaller-linux:python2'
+
                         sh 'pytest --verbose --junit-xml test-reports/results.xml sources/test_calc.py'
                     } catch (Exception e) {
                         currentBuild.result = 'FAILURE'
