@@ -33,7 +33,7 @@ pipeline {
                 }
             }
             steps {
-                //sh 'pyinstaller --onefile sources/add2vals.py'
+                sh 'pyinstaller --onefile sources/add2vals.py'
                 echo 'SLEEP'
                 sleep(time:60, unit: "SECONDS")
                 input message: 'Finished using the website? (Click "Proceed" to continue)'
