@@ -1,7 +1,7 @@
 pipeline {
     agent none
     environment {
-        DOCKER_HOST = "tcp://localhost:2376"
+        DOCKER_HOST = "tcp://localhost:3000"
     }
     stages {
         stage('Build') {
