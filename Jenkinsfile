@@ -5,7 +5,6 @@ pipeline {
             agent {
                 docker {
                     image 'python:2-alpine'
-                    args '-v /var/run/docker.sock:/var/run/docker.sock'
                 }
             }
             steps {
@@ -16,7 +15,6 @@ pipeline {
             agent {
                 docker {
                     image 'qnib/pytest'
-                    args '-v /var/run/docker.sock:/var/run/docker.sock'
                 }
             }
             steps {
@@ -29,32 +27,22 @@ pipeline {
             }
         }
         stage('Deploy') {
-            agent any
+            agent {
+                docker {
+                    image 'cdrx/pyinstaller-linux:python2'
+                }
+            }
             steps {
-                script {
-                    echo 'Deploying add2vals.py to localhost...'
-                    
-                    // Ensure deploy directory exists
-                    sh 'mkdir -p /opt/myapp'
-
-                    // Copy the script to a local directory
-                    sh 'cp sources/add2vals.py /opt/myapp/'
-
-                    // Give execution permissions
-                    sh 'chmod +x /opt/myapp/add2vals.py'
-
-                    // Run the script (optional, if required)
-                    sh 'python /opt/myapp/add2vals.py'
-
-                    echo 'Deployment to localhost completed successfully!'
-                    
-                    echo 'SLEEP'
-                    sleep(time:60, unit: "SECONDS")
-                    input message: 'Finished using the website? (Click "Proceed" to continue)'
-
+                //sh 'pyinstaller --onefile sources/add2vals.py'
+                echo 'SLEEP'
+                sleep(time:60, unit: "SECONDS")
+                input message: 'Finished using the website? (Click "Proceed" to continue)'
+            }
+            post {
+                success {
+                    archiveArtifacts artifacts: 'dist/add2vals'
                 }
             }
         }
     }
 }
-
