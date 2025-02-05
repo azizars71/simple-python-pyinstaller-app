@@ -3,10 +3,10 @@ pipeline {
 
     environment {
         // ssh ke ec2
-        SSH_CREDENTIALS = 'EC2cicdproj'
-        EC2_USER = 'ec2-user'
-        EC2_HOST = 'ec2-3-0-103-129.ap-southeast-1.compute.amazonaws.com'
-        EC2_PATH = '/home/ec2-user/'
+        SSH_CREDENTIALS = 'Ubuntu-cicd-ec2'
+        EC2_USER = 'ubuntu'
+        EC2_HOST = 'ec2-54-179-125-239.ap-southeast-1.compute.amazonaws.com'
+        EC2_PATH = '/home/ubuntu'
     }
 
     stages {
