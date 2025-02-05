@@ -64,7 +64,7 @@ pipeline {
                         input message: 'Are you done yet? (Click "Proceed" to continue)'
 
                         // Copy the built artifact to the running Docker container
-                        sh "docker cp dist/add2vals ${DOCKER_CONTAINER_NAME}:${DEPLOY_DIR}/add2vals"
+                        //sh "docker cp dist/add2vals ${DOCKER_CONTAINER_NAME}:${DEPLOY_DIR}/add2vals"
 
                         // Make it executable & restart if needed
                         //sh "docker exec ${DOCKER_CONTAINER_NAME} chmod +x ${DEPLOY_DIR}/add2vals"
