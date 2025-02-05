@@ -73,10 +73,11 @@ pipeline {
                         //input message: 'Are you done yet? (Click "Proceed" to continue)'
 
                         // copy to EC2
-                        sshagent(credentials: [SSH_CREDENTIALS]) {
-                            sh """
-                                scp -o StrictHostKeyChecking=no dist/add2vals ${EC2_USER}@${EC2_HOST}:${EC2_PATH}
-                            """
+                        withCredentials([sshUserPrivateKey(credentialsId: 'EC2cicdproj', keyFileVariable: 'SSH_KEY')]) {
+                            sh '''
+                            scp -o StrictHostKeyChecking=no -i $SSH_KEY dist/add2vals $EC2_USER@$EC2_HOST:$EC2_PATH
+                            ssh -o StrictHostKeyChecking=no -i $SSH_KEY $EC2_USER@$EC2_HOST "chmod +x $EC2_PATH/add2vals && $EC2_PATH/add2vals"
+                            '''
                         }
 
                     } catch (Exception e) {
