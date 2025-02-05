@@ -55,7 +55,7 @@ pipeline {
                         // Run the Python 2 container temporarily to build the binary
                         sh '''
                         docker run --rm -v $(pwd):/workspace -w /workspace \
-                        python:2-alpine sh -c "pip install pyinstaller==3.6 && pyinstaller --onefile sources/add2vals.py"
+                        python:2-alpine sh -c "pip install pyinstaller==3.4 && pyinstaller --onefile sources/add2vals.py"
                         '''
 
                         echo 'Waiting for deployment confirmation...'
