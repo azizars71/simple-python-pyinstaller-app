@@ -67,8 +67,8 @@ pipeline {
                         sh "docker cp dist/add2vals ${DOCKER_CONTAINER_NAME}:${DEPLOY_DIR}/add2vals"
 
                         // Make it executable & restart if needed
-                        sh "docker exec ${DOCKER_CONTAINER_NAME} chmod +x ${DEPLOY_DIR}/add2vals"
-                        sh "docker exec ${DOCKER_CONTAINER_NAME} supervisorctl restart myapp"  // Adjust if needed
+                        //sh "docker exec ${DOCKER_CONTAINER_NAME} chmod +x ${DEPLOY_DIR}/add2vals"
+                        //sh "docker exec ${DOCKER_CONTAINER_NAME} supervisorctl restart myapp"  // Adjust if needed
 
                     } catch (Exception e) {
                         currentBuild.result = 'FAILURE'
