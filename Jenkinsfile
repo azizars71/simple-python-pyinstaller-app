@@ -5,7 +5,7 @@ pipeline {
         // ssh ke ec2
         SSH_CREDENTIALS = 'Ubuntu-cicd-ec2'
         EC2_USER = 'ubuntu'
-        EC2_HOST = 'ec2-54-179-125-239.ap-southeast-1.compute.amazonaws.com'
+        EC2_HOST = 'ec2-47-129-32-198.ap-southeast-1.compute.amazonaws.com'
         EC2_PATH = '/home/ubuntu'
     }
 
