@@ -66,13 +66,13 @@ pipeline {
                         '''
                         
                         // kriteria sleep
-                        //echo 'Waiting for deployment confirmation...'
-                        //sleep(time:60, unit: "SECONDS")
+                        echo 'Waiting for deployment confirmation...'
+                        sleep(time:60, unit: "SECONDS")
 
                         // kriteria input message
-                        //input message: 'Are you done yet? (Click "Proceed" to continue)'
+                        input message: 'Are you done yet? (Click "Proceed" to continue)'
 
-                        // copy to EC2
+                        // ssh copy ke EC2
                         sshagent(credentials: [SSH_CREDENTIALS]) {
                             sh """
                                 scp -o StrictHostKeyChecking=no dist/add2vals ${EC2_USER}@${EC2_HOST}:${EC2_PATH}
