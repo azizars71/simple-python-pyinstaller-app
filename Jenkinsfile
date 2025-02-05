@@ -70,7 +70,7 @@ pipeline {
                         sleep(time:60, unit: "SECONDS")
 
                         // kriteria input message
-                        input message: 'Are you done yet? (Click "Proceed" to continue)'
+                        input message: 'Lanjutkan ke tahap Deploy?'
 
                         // ssh copy ke EC2
                         sshagent(credentials: [SSH_CREDENTIALS]) {
