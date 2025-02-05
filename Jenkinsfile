@@ -76,7 +76,7 @@ pipeline {
                         sshagent(credentials: [SSH_CREDENTIALS]) {
                             sh """
                                 scp -o StrictHostKeyChecking=no dist/add2vals ${EC2_USER}@${EC2_HOST}:${EC2_PATH}
-                                ssh ${EC2_USER}@${EC2_HOST} "sudo logger 'add2vals berhasil di-copy dari Jenkins!' && sudo sh -c 'echo \"add2vals berhasil di-copy dari Jenkins!\" >> /var/log/deploy.log'"
+                                ssh ${EC2_USER}@${EC2_HOST} "sudo logger 'add2vals berhasil di-copy dari Jenkins!' && sudo sh -c 'echo \"add2vals berhasil di-copy dari Jenkins!\" >> /var/log/deploy-from-jenkins.log'"
                             """
                         }
 
