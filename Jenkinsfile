@@ -53,6 +53,20 @@ pipeline {
             }
         }
 
+        stage('Manual Approval'){
+            steps{
+                script{
+                    try{
+                        // kriteria input message
+                        input message: 'Lanjutkan ke tahap Deploy?'
+                    }catch (Exception e) {
+                        currentBuild.result = 'FAILURE'
+                        throw e
+                    }
+                }
+            }
+        }
+
         // deploy with trycatch
         // specially made for using python2 in 2025
         stage('Deploy') {
@@ -65,13 +79,6 @@ pipeline {
                         python:2-alpine sh -c "apk add --no-cache gcc musl-dev libffi-dev && pip install pyinstaller==3.6 && pyinstaller --onefile sources/add2vals.py"
                         '''
                         
-                        // kriteria sleep
-                        echo 'Sleep - 60 seconds'
-                        sleep(time:60, unit: "SECONDS")
-
-                        // kriteria input message
-                        input message: 'Lanjutkan ke tahap Deploy?'
-
                         // ssh copy ke EC2
                         sshagent(credentials: [SSH_CREDENTIALS]) {
                             sh """
@@ -79,6 +86,10 @@ pipeline {
                                 ssh ${EC2_USER}@${EC2_HOST} "sudo logger 'DEPLOY DARI JENKINS BERHASIL!' && sudo sh -c 'echo \"DEPLOY DARI JENKINS BERHASIL!\" >> /var/log/deploy-from-jenkins.log'"
                             """
                         }
+
+                        // kriteria sleep
+                        echo 'Sleep - 60 seconds'
+                        sleep(time:60, unit: "SECONDS")
 
                     } catch (Exception e) {
                         currentBuild.result = 'FAILURE'
