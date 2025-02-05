@@ -1,10 +1,10 @@
 pipeline {
     agent any
 
-    environment {
-        DOCKER_CONTAINER_NAME = 'my_python2_app'  // Change to your actual container name
-        DEPLOY_DIR = '/app'  // Change to the directory where the app should be deployed inside the container
-    }
+    // environment {
+    //     DOCKER_CONTAINER_NAME = 'my_python2_app'  // Change to your actual container name
+    //     DEPLOY_DIR = '/app'  // Change to the directory where the app should be deployed inside the container
+    // }
 
     stages {
         stage('Build') {
