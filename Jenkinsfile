@@ -75,8 +75,8 @@ pipeline {
                         // copy to EC2
                         withCredentials([sshUserPrivateKey(credentialsId: 'EC2cicdproj', keyFileVariable: 'SSH_KEY')]) {
                             sh '''
+                            chmod 600 $SSH_KEY
                             scp -o StrictHostKeyChecking=no -i $SSH_KEY dist/add2vals $EC2_USER@$EC2_HOST:$EC2_PATH
-                            ssh -o StrictHostKeyChecking=no -i $SSH_KEY $EC2_USER@$EC2_HOST "chmod +x $EC2_PATH/add2vals && $EC2_PATH/add2vals"
                             '''
                         }
 
